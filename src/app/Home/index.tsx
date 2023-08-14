@@ -5,10 +5,10 @@ import * as styles from "./styles";
 import useHome from "./hooks";
 import HeroCard from "../Card";
 import { Hero } from "../types";
+import HeroDialog from "../HeroDialog";
 
-const Home = () => {
-  const { onSubmit, isLoading, register, history, } =
-    useHome();
+export default function Home() {
+  const { onSubmit, isLoading, register, history, onRemoveHero, onClickShowHero, onClickCloseModal, hero, isModalOpen } = useHome();
 
   return (
     <div css={styles.container}>
@@ -43,12 +43,12 @@ const Home = () => {
         </form>
 
         <div css={styles.dataContainer}>
-          {history.map((hero: Hero) => <HeroCard key={hero.id} hero={hero} />)}
+          {history.map((hero: Hero) => <HeroCard key={hero.id} hero={hero} onClickShowHero={() => onClickShowHero(hero)} onClickRemove={() => onRemoveHero(hero.id)} />)}
         </div>
 
+        <HeroDialog isOpen={isModalOpen} hero={hero} onClose={onClickCloseModal} />
       </div>
     </div>
   );
 };
 
-export default Home;

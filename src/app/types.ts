@@ -1,9 +1,7 @@
 type Hero = {
   id: string;
   name: string;
-  biography: {
-    ["full-name"]: string;
-  };
+  biography: Biography;
   image: {
     url: string;
   };
@@ -17,6 +15,14 @@ type PowerStats = {
   power: string;
   speed: string;
   strength: string;
+  [key: string]: string;
+};
+
+type Biography = {
+  ["full-name"]: string;
+  alignment: string;
+  ["alter-egos"]: string;
+  ["first-appearance"]: string;
   [key: string]: string;
 };
 

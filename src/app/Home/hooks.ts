@@ -9,6 +9,8 @@ import { Hero } from "../types";
 const useHome = () => {
   const [history, setHistory] = useState<Hero[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hero, setHero] = useState<Hero | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const { handleSubmit, getValues, register } = useForm<FormValues>();
 
@@ -35,11 +37,34 @@ const useHome = () => {
     }
   }, [history]);
 
+  const onRemoveHero = useCallback(
+    (id: string) => {
+      const newHistory = [...history].filter((hero) => hero.id !== id);
+      setHistory(newHistory);
+    },
+    [history]
+  );
+
+  const onClickShowHero = useCallback((hero: Hero) => {
+    setHero(hero);
+    setIsModalOpen(true);
+  }, []);
+
+  const onClickCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+    // setHero(null);
+  }, []);
+
   return {
     onSubmit: handleSubmit(onSubmit),
     isLoading,
     register,
     history,
+    onRemoveHero,
+    onClickShowHero,
+    onClickCloseModal,
+    hero,
+    isModalOpen,
   };
 };
 
