@@ -9,20 +9,22 @@ export const container = css`
   display: flex;
   flex-flow: row wrap;
   direction: ltr;
+  overflow: auto;
 
-  .h3, h4 {
+  .h3,
+  h4 {
     margin: 0;
   }
 
   ul {
-    padding: 0
+    padding: 0;
   }
 `;
 
 export const card = css`
   display: flex;
   flex-direction: column;
-  margin-top: 10vh;
+  margin-top: 5vh;
   padding: 50px;
 `;
 
@@ -67,13 +69,19 @@ export const submitButton = css`
   margin-left: 20px;
 `;
 
-export const loading = css`
-  &.MuiCircularProgress-root {
-    color: ##6a806c;
-  }
-`;
-
 export const dataContainer = css`
   display: flex;
   column-gap: 100px;
+  margin-top: 50px;
+  flex-flow: row wrap;
+  position: relative;
+  row-gap: 20px;
+`;
+
+export const form = css`
+  display: flex;
+  height: "min-content";
+  width: 450px;
+  column-gap: 20px;
+  align-items: center;
 `;

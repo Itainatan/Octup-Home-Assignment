@@ -1,27 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-
-type FormValues = {
-  search: string;
-};
+import { API_URL } from "../constants";
+import { FormValues } from "./types";
+import { toast } from "react-toastify";
+import { Hero } from "../types";
 
 const useHome = () => {
-  const [history, setHistory] = useState<any[]>([]);
-  const [data, setData] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchHistory = async () => {
-      const { data } = await axios.get(`http://localhost:8000/get-history`);
-
-      setHistory(data.data);
-    };
-
-    fetchHistory();
-  }, []);
-
-  const onClickCity = useCallback(() => {}, []);
+  const [history, setHistory] = useState<Hero[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { handleSubmit, getValues, register } = useForm<FormValues>();
 
@@ -31,33 +18,28 @@ const useHome = () => {
 
       const { search } = getValues();
 
-      const cities = search.split(",");
-
-      const data: any = await Promise.all(
-        cities.map(async (city) => {
-          const cityData = await axios.get(
-            `http://localhost:8000/get-weather/${city}`
-          );
-          return cityData.data;
-        })
+      const { data }: any = await axios.get(
+        `${API_URL}/get-superhero/${search}`
       );
 
-      setHistory([...history, ...data].slice(-10));
-      setData(data);
+      if (data.response === "error") {
+        toast.error(data.error);
+      } else {
+        setHistory([...history, ...data.results]);
+      }
+
       setIsLoading(false);
     } catch (error) {
+      console.log(error);
       setIsLoading(false);
     }
   }, [history]);
 
   return {
-    onClickCity,
     onSubmit: handleSubmit(onSubmit),
     isLoading,
     register,
-    data,
     history,
-    setData,
   };
 };
 

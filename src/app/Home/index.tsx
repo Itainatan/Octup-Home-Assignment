@@ -4,6 +4,7 @@ import { AppBar, } from "@src/common-components";
 import * as styles from "./styles";
 import useHome from "./hooks";
 import HeroCard from "../Card";
+import { Hero } from "../types";
 
 const Home = () => {
   const { onSubmit, isLoading, register, history, } =
@@ -11,12 +12,9 @@ const Home = () => {
 
   return (
     <div css={styles.container}>
+
       <AppBar position="absolute" open={false} >
-        <Toolbar
-          sx={{
-            pr: "24px",
-          }}
-        >
+        <Toolbar>
           <Typography component="h1" variant="h6" color="inherit" noWrap>
             Octup - SuperHero App
           </Typography>
@@ -24,10 +22,7 @@ const Home = () => {
       </AppBar>
 
       <div css={styles.card}>
-        <form onSubmit={onSubmit} style={{
-          display: 'flex',
-          height: 'min-content',
-        }}>
+        <form onSubmit={onSubmit} css={styles.form}>
           <TextField
             margin="normal"
             required
@@ -35,7 +30,7 @@ const Home = () => {
             label="enter superhero name"
             css={styles.input}
             {...register("search", {
-              required: "Name is required",
+              required: true,
             })}
           />
           {isLoading ? (
@@ -48,7 +43,7 @@ const Home = () => {
         </form>
 
         <div css={styles.dataContainer}>
-          {history.map(hero => <HeroCard />)}
+          {history.map((hero: Hero) => <HeroCard key={hero.id} hero={hero} />)}
         </div>
 
       </div>
