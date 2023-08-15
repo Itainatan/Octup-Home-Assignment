@@ -52,7 +52,6 @@ const useHome = () => {
 
   const onClickCloseModal = useCallback(() => {
     setIsModalOpen(false);
-    // setHero(null);
   }, []);
 
   return {
